@@ -18,10 +18,11 @@ var wechat = require('wechat');
 var config = {
   token: 'wechat-node',
   appid: 'wxce1fff14f1989d01',
+  appsecret: 'ccead13545ece0ea702c1d158a339b33'
 };
 
 app.use(express.query());
-app.use('/wechat', wechat('wechat-node').text(function (message, req, res, next) {
+app.use('/wechat', wechat(config, wechat.text(function (message, req, res, next) {
   res.reply('text');
 }).image(function (message, req, res, next) {
   res.reply('image');
