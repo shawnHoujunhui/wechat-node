@@ -44,7 +44,7 @@ app.use('/wechat', wechat(config, wechat.text(function (message, req, res, next)
   } else {
     res.reply('device_event.')
   }
-}).middlewarify());
+})));
 
 
 module.exports = app;
