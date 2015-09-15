@@ -18,7 +18,6 @@ var wechat = require('wechat');
 var config = {
   token: 'node',
   appid: 'wxce1fff14f1989d01',
-  encodingAESKey: 'encodinAESKey'
 };
 
 app.use(express.query());
