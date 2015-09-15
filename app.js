@@ -26,13 +26,14 @@ var config = {
 
 app.use(express.query());
 
+//利用session储存会话状态
 var List = require('wechat').List;
 List.add('view', [
-  ['回复{a}查看我的性别', function (info, req, res) {
-    res.reply('我是个妹纸哟');
+  ['回复{a}查看我的博客', function (info, req, res) {
+    res.reply('http://blog.xiaorun.me/');
   }],
-  ['回复{b}查看我的年龄', function (info, req, res) {
-    res.reply('我今年18岁');
+  ['回复{b}查看我的微信号', function (info, req, res) {
+    res.reply('sherlock26');
   }],
   ['回复{c}查看我的性取向', '这样的事情怎么好意思告诉你啦- -']
 ]);
@@ -70,5 +71,35 @@ app.use('/wechat', wechat(config, wechat.text(function (message, req, res, next)
 var WechatAPI = require('wechat-api');
 
 var api = new WechatAPI('wx86d16afcfdc1afc6', 'bce57bdc8b5f4ab2efda5523d32d1e72');
+
+var menu = {
+    "button":[
+    {
+      "type":"view",
+      "name":"念念不忘",
+      "url":"http://xiaorun.me"
+    },
+    {
+      "type":"view",
+      "name":"必有回响",
+      "url":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzA5OTI1MTQyNw==#wechat_webview_type=1&wechat_redirect"
+    },
+    {
+      "name":"more",
+      "sub_button":[
+        {
+          "type":"click",
+          "name":"刷一下",
+          "key":"A"
+        },
+        {
+          "type":"click",
+          "name":"瞄一下",
+          "key":"B"
+        }]
+    }]
+};
+
+api.createMenu(menu, callback);
 
 module.exports = app;
