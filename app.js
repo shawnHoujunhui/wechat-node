@@ -1,27 +1,33 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+/*
+ * Module dependencies
+ */
+var express = require('express')
+    , stylus = require('stylus')
+    , nib = require('nib')
+    , url = require('url')
+    , wechat = require('wechat');
 
-var app = express();
 
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+var app = express()
 
-//wechat
-var wechat = require('wechat');
-var config = {
-  token: 'node',
-  appid: 'wxce1fff14f1989d01',
-};
+function compile(str, path) {
+  return stylus(str)
+      .set('filename', path)
+      .use(nib());
+}
 
-app.use(express.query());
-app.use('/wechat', wechat(config, function (req, res, next) {
+app.set('views', __dirname + '/views')
+app.set('view engine', 'jade')
+app.use(express.logger('dev'))
+app.use(stylus.middleware(
+    { src: __dirname + '/public'
+      , compile: compile
+    }
+))
+app.use(express.static(__dirname + '/public'))
+app.use(express.query()); // Or app.use(express.query());
+
+app.use('/token', wechat('wechat-node', function (req, res, next) {
   // 微信输入信息都在req.weixin上
   var message = req.weixin;
   if (message.FromUserName === 'diaosi') {
@@ -41,8 +47,7 @@ app.use('/wechat', wechat(config, function (req, res, next) {
         title: "来段音乐吧",
         description: "一无所有",
         musicUrl: "http://mp3.com/xx.mp3",
-        hqMusicUrl: "http://mp3.com/xx.mp3",
-        thumbMediaId: "thisThumbMediaId"
+        hqMusicUrl: "http://mp3.com/xx.mp3"
       }
     });
   } else {
@@ -58,5 +63,16 @@ app.use('/wechat', wechat(config, function (req, res, next) {
   }
 }));
 
+app.get('/', function (req, res) {
+  res.render('index',
+      { title : 'Home' }
+  )
+})
 
-module.exports = app;
+app.get('/token_test', function (req, res) {
+  var arg = url.parse(req.url, true).query;
+  res.write(arg.signature);
+  res.end();
+})
+
+app.listen(80)
