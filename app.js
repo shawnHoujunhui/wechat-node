@@ -59,8 +59,8 @@ app.use(function(err, req, res, next) {
 //wechat
 var wechat = require('wechat');
 var config = {
-  token: 'wxce1fff14f1989d01',
-  appid: 'ccead13545ece0ea702c1d158a339b33',
+  token: 'wechat-node',
+  appid: 'wxce1fff14f1989d01',
   encodingAESKey: 'encodinAESKey'
 };
 
@@ -72,8 +72,8 @@ app.use('/wechat', wechat('wechat-node').text(function (message, req, res, next)
   });
   //res.reply([
   //  {
-  //    title: '你来我家接我吧',
-  //    description: '这是女神与高富帅之间的对话',
+  //    title: 'title',
+  //    description: 'description',
   //    picurl: 'http://nodeapi.cloudfoundry.com/qrcode.jpg',
   //    url: 'http://nodeapi.cloudfoundry.com/'
   //  }
@@ -93,8 +93,7 @@ app.use('/wechat', wechat('wechat-node').text(function (message, req, res, next)
 }).device_text(function (message, req, res, next) {
   res.reply('device_text.');
 }).device_event(function (message, req, res, next) {
-  if (message.Event === 'subscribe_status' || message.Event === 'unsubscribe_status') {
-    //WIFI设备状态订阅,回复设备状态(1或0)
+  if (message.Event === 'subscribe_status' || message.Event === 'unsubscribe_status') {s
     res.reply(1);
   } else {
     res.reply('device_event.')
