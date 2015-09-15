@@ -11,8 +11,8 @@ var app = express();
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser(set.cookieSecret));
-app.use(session({ secret: "sessionSecret", key: "sessionKey", cookie: { secure: true }}))
+app.use(cookieParser());
+app.use(session({ secret: "sessionSecret", key: "sessionKey", cookie: { secure: true }}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //wechat
