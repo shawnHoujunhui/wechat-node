@@ -16,8 +16,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 //wechat
 var wechat = require('wechat');
 var config = {
-  token: 'wechat-node',
-  appid: 'wxce1fff14f1989d01'
+  token: 'node',
+  appid: 'wxce1fff14f1989d01',
+  encodingAESKey: 'encodinAESKey'
 };
 
 app.use(express.query());
