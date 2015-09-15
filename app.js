@@ -72,34 +72,34 @@ var WechatAPI = require('wechat-api');
 
 var api = new WechatAPI('wx86d16afcfdc1afc6', 'bce57bdc8b5f4ab2efda5523d32d1e72');
 
-var menu = {
-    "button":[
-    {
-      "type":"view",
-      "name":"念念不忘",
-      "url":"http://xiaorun.me"
-    },
-    {
-      "type":"view",
-      "name":"必有回响",
-      "url":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzA5OTI1MTQyNw==#wechat_webview_type=1&wechat_redirect"
-    },
-    {
-      "name":"more",
-      "sub_button":[
-        {
-          "type":"click",
-          "name":"刷一下",
-          "key":"A"
-        },
-        {
-          "type":"click",
-          "name":"瞄一下",
-          "key":"B"
-        }]
-    }]
-};
-
-api.createMenu(menu, callback);
+//var menu = {
+//    "button":[
+//    {
+//      "type":"view",
+//      "name":"念念不忘",
+//      "url":"http://xiaorun.me"
+//    },
+//    {
+//      "type":"view",
+//      "name":"必有回响",
+//      "url":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzA5OTI1MTQyNw==#wechat_webview_type=1&wechat_redirect"
+//    },
+//    {
+//      "name":"more",
+//      "sub_button":[
+//        {
+//          "type":"click",
+//          "name":"刷一下",
+//          "key":"A"
+//        },
+//        {
+//          "type":"click",
+//          "name":"瞄一下",
+//          "key":"B"
+//        }]
+//    }]
+//};
+//
+//api.createMenu(menu, callback);
 
 module.exports = app;
