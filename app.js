@@ -44,5 +44,8 @@ app.use('/wechat', wechat(config, wechat.text(function (message, req, res, next)
   res.reply('device_event');
 })));
 
+var WechatAPI = require('wechat-api');
+
+var api = new WechatAPI('wx86d16afcfdc1afc6', 'bce57bdc8b5f4ab2efda5523d32d1e72');
 
 module.exports = app;
