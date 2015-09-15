@@ -24,6 +24,17 @@ var config = {
 
 app.use(express.query());
 
+var List = require('wechat').List;
+List.add('view', [
+  ['回复{a}查看我的性别', function (info, req, res) {
+    res.reply('我是个妹纸哟');
+  }],
+  ['回复{b}查看我的年龄', function (info, req, res) {
+    res.reply('我今年18岁');
+  }],
+  ['回复{c}查看我的性取向', '这样的事情怎么好意思告诉你啦- -']
+]);
+
 //被动调用
 app.use('/wechat', wechat(config, wechat.text(function (message, req, res, next) {
   if(message.Content === 'list'){
@@ -52,17 +63,6 @@ app.use('/wechat', wechat(config, wechat.text(function (message, req, res, next)
     res.reply('自定义菜单点击事件')
   }
 })));
-
-var List = require('wechat').List;
-List.add('view', [
-  ['回复{a}查看我的性别', function (info, req, res) {
-    res.reply('我是个妹纸哟');
-  }],
-  ['回复{b}查看我的年龄', function (info, req, res) {
-    res.reply('我今年18岁');
-  }],
-  ['回复{c}查看我的性取向', '这样的事情怎么好意思告诉你啦- -']
-]);
 
 //主动调用
 var WechatAPI = require('wechat-api');
