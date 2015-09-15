@@ -23,7 +23,12 @@ var config = {
 };
 
 app.use(express.query());
-app.use('/wechat', wechat(config, weixin.text(function (message, req, res, next) {
+
+app.use('/token', wechat(config, function (req, res, next) {
+  res.reply('success');
+}));
+
+app.use('/wechat', wechat('some token', wechat.text(function (message, req, res, next) {
   res.reply('text');
 }).image(function (message, req, res, next) {
   res.reply('image');
