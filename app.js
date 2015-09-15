@@ -40,7 +40,7 @@ app.use('/wechat', wechat(config, wechat.text(function (message, req, res, next)
   if(message.Content === 'list'){
     res.wait('view');
   }else{
-    res.replay('text');
+    res.reply('text');
   }
 }).image(function (message, req, res, next) {
   res.reply('image');
