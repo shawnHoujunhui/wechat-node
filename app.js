@@ -3,6 +3,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -10,7 +11,8 @@ var app = express();
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(set.cookieSecret));
+app.use(session({ secret: "sessionSecret", key: "sessionKey", cookie: { secure: true }}))
 app.use(express.static(path.join(__dirname, 'public')));
 
 //wechat
