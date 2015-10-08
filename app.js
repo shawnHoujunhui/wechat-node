@@ -10,18 +10,18 @@ var app = express();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(session({ secret: "sessionSecret", key: "sessionKey", cookie: { secure: true }}));
+app.use(session({secret: "sessionSecret", key: "sessionKey", cookie: {secure: true}}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //wechat
 var wechat = require('wechat');
 var config = {
-  token: 'node',
-  appid: 'wx86d16afcfdc1afc6',
-  appsecret: 'bce57bdc8b5f4ab2efda5523d32d1e72',
-  encodingAESKey: 'yfZq2Zy1xmSoZafw7yNdBHXXvZhnqlvgpo6d62YieqI'
+    token: 'node',
+    appid: 'wx86d16afcfdc1afc6',
+    appsecret: 'bce57bdc8b5f4ab2efda5523d32d1e72',
+    encodingAESKey: 'yfZq2Zy1xmSoZafw7yNdBHXXvZhnqlvgpo6d62YieqI'
 };
 
 app.use(express.query());
@@ -29,42 +29,42 @@ app.use(express.query());
 //利用session储存会话状态
 var List = require('wechat').List;
 List.add('view', [
-  ['回复{a}查看我的博客', function (info, req, res) {
-    res.reply('http://blog.xiaorun.me/');
-  }],
-  ['回复{b}查看我的微信号', function (info, req, res) {
-    res.reply('sherlock26');
-  }],
-  ['回复{c}查看我的性取向', '这样的事情怎么好意思告诉你啦- -']
+    ['回复{a}查看我的博客', function (info, req, res) {
+        res.reply('http://blog.xiaorun.me/');
+    }],
+    ['回复{b}查看我的微信号', function (info, req, res) {
+        res.reply('sherlock26');
+    }],
+    ['回复{c}查看我的性取向', '这样的事情怎么好意思告诉你啦- -']
 ]);
 
 //被动调用
 app.use('/wechat', wechat(config, wechat.text(function (message, req, res, next) {
-  if(message.Content === 'list'){
-    res.wait('view');
-  }else{
-    res.reply('text');
-  }
+    if (message.Content === 'list') {
+        res.wait('view');
+    } else {
+        res.reply('text');
+    }
 }).image(function (message, req, res, next) {
-  res.reply('image');
+    res.reply('image');
 }).voice(function (message, req, res, next) {
-  res.reply('voice');
+    res.reply('voice');
 }).video(function (message, req, res, next) {
-  res.reply('video');
+    res.reply('video');
 }).location(function (message, req, res, next) {
-  res.reply('location');
+    res.reply('location');
 }).link(function (message, req, res, next) {
-  res.reply('link');
+    res.reply('link');
 }).event(function (message, req, res, next) {
-  res.reply('event');
+    res.reply('event:' + message);
 }).device_text(function (message, req, res, next) {
-  res.reply('device_text');
+    res.reply('device_text');
 }).device_event(function (message, req, res, next) {
-  if (message.Event === 'subscribe_status' || message.Event === 'unsubscribe_status') {
-    res.reply("订阅事件");
-  } else {
-    res.reply('自定义菜单点击事件')
-  }
+    if (message.Event === 'subscribe' || message.Event === 'unsubscribe') {
+        res.reply("订阅事件");
+    } else {
+        res.reply('自定义菜单点击事件')
+    }
 })));
 
 //主动调用
